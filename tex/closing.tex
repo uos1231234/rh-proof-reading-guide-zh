@@ -1,0 +1,99 @@
+\section{两次相消，留下真正待估的量}
+\subsection{配对的高度不等于你想证明的素数界}
+在固定族点，有限处一侧给平移后源格的斜率下界，形状为
+\[
+   \mu(N_u)\ge\mu(M_u)+G_a+F_o-E_e(u)-L_o(u).
+\]
+$M_u$ 是基准格，$G_a$ 来自局部有效收益的总账，$F_o$ 是同一族点上换格斜率下界与高度估计共用的修正量，而 $E_e,L_o$ 是另外处理的成本。这行按同一归一化将局部重数汇入斜率。这个把各地点按有理素数合并的步骤，必须按对应地点的权重进行，不能按一个 $p$ 上方的地点数再乘一次。也不能把 $G_a$ 定义成目标主项，从而不经过比较。
+
+除法及无穷处估计给出\emph{同一个} $h_u$ 的上界：
+\[
+       \mu(C)+h_u-F_o\le \mathrm{MAIN}_u+E_{\mathrm{div}}.
+\]
+移项可见 $h_u\le\mathrm{MAIN}_u+E_{\mathrm{div}}-\mu(C)+F_o$。两式相减，有限处一侧的 $+F_o$ 与高度里的 $+F_o$ 相消，得到
+\[
+\begin{aligned}
+ \mu(N_u)-h_u\ge G_a+\mu(C)+\mu(M_u)
+  -\mathrm{MAIN}_u\ &{}-E_e(u)\\
+  &{}-L_o(u)-E_{\mathrm{div}}.
+\end{aligned}
+\]
+若把高度式左侧写成 $\mu(C)+h_u+F_o$，就不会得到同一结论。若 Frame 中实际用的不是同一个 $h_u$，那么按上式计算的加权均值也不是 Frame 要比较的那个数。\src{Formalism/SharpRestriction/GlobalSchurBounds/QuadraticLogDerivCongr.lean}{L580-L591}{高度估计中的公共修正}；\src{Formalism/SizeWindowBrackets/ChainSlopeWindows/LevelOfCongruence.lean}{L50-L66}{按实际秩逐词平均}。
+
+\subsection{逐词的主项如何变成公共主项}
+前式的 $\mathrm{MAIN}_u$ 不是常数。令 $A=\sum_t a_t\ge0$，其中含有随词改变的一项 $-A\log T_u$。计数输入给出同一族点上的共同下界 $\log T_u\ge\Lambda_5$，所以在估高度上界时，可以用 $-A\Lambda_5$ 代替原项。$A\ge0$ 对方向重要。另一个输入估计 $E_e(u)$，其主项为 $mA\ell_g$，并把差放入误差。于是高度与斜率预算的公共部分汇成
+\[
+ S_{\mathrm{Div}}-A\Lambda_5+mA\ell_g.
+\]
+这里 $\ell_g$ 是源码 \texttt{lg}，$S_{\mathrm{Div}}$ 是 \texttt{SDiv}。对应恒等式是
+\[
+\begin{aligned}
+ S_{\mathrm{Div}}-A\Lambda_5+mA\ell_g
+      &=\mathrm{Main}+A E_{\mathrm{count}},\\
+ E_{\mathrm{count}}&=c_{\mathrm{count}}
+      \bigl(\mathrm{La}+m^2\mathrm{La}/k\bigr).
+\end{aligned}
+\]
+一眼看去，这三项往往都像“调参”。实际职责不同：$S_{\mathrm{Div}}$ 随除法高度进入，$\Lambda_5$ 由共同的水平计数下界进入，$mA\ell_g$ 来自指数成本的主项。公共修正相消之后，再把这三项用具体代数恒等式整理成 \texttt{Main}，不是预先拿素数偏差的上界当输入。\src{Formalism/SizeWindowBrackets/ChainSlopeWindows/LevelOfCongruence.lean}{L17-L27}{水平计数和预算定义}；\src{Formalism/SizeWindowBrackets/ChainSlopeWindows/LevelOfCongruence.lean}{L105-L111}{主项恒等式}。
+
+其余的基准斜率、指数界与 $L_o(u)$ 都要付进去。按实际源秩 $d_u$ 平均后，上述推理得到
+\[
+       s\ge G_a+\mu(C)-\mathrm{Main}-\mathcal E_{\mathrm{arith}}.
+\]
+这里 $\mathcal E_{\mathrm{arith}}$ 是为了叙述而合并的数，不是声称源码用同名符号。它包括水平计数余项、除法和源格的估计，以及按 $d_u$ 平均的损失。若把此处改为对词作等权平均，得到的通常就不是同一个 $s$。例如两个词的秩为 $1$ 和 $9$，调整后各为 $10$ 和 $0$，等权均值是 $5$，按秩均值却是 $1$。
+
+\subsection{第二次消去是真的，不是循环}
+Frame 上界与刚得到的下界可并列：
+\[
+\begin{aligned}
+  G_a+\mu(C)-\mathrm{Main}-\mathcal E_{\mathrm{arith}}
+      &\le s,\\
+  s &\le \mu(C)+\log|\mathcal W|+\mathcal E_{\mathrm{fr}} .
+\end{aligned}
+\]
+消去的是同一个 $s$，随后消去这同一个对偶格的 $\mu(C)$。结果为
+\[
+ G_a-\mathrm{Main}\le\log|\mathcal W|
+      +\mathcal E_{\mathrm{arith}}+\mathcal E_{\mathrm{fr}}.
+\]
+这既说明为什么不需要单独精算 $\mu(C)$，也说明不能跳过确认“到底是哪一个 $C$”。下界使用局部整除、换格和除法高度；上界使用同一映射的整性、矩阵与斜率过滤，来源与结论并不自相循环。进一步还要单独控制 \texttt{ASK}$-G_a$ 及轨道损失 \texttt{IO}，才得到应用于窗口平均的那条估计。即使 \texttt{ASK}$-G_a$ 在某个族点碰巧为零，也不是整个证明可把它删掉的理由。\src{Formalism/SizeWindowBrackets/ChainSlopeWindows/LevelOfCongruence.lean}{L113-L197}{消项、Frame 误差和点态估计}。
+
+\subsection{窗口是输出接口，不是任意点的结论}
+本章结束在算术上界的交接点。对族点的估计、对窗口的平均、以及对大尺度解析对象的结论，是三个不同层次。后续解析环节在指定参数与薄尺度条件下，才把上界转为含 $x^{1/2+O(\varepsilon)}$ 的估计，并处理剩余的特征项。这里不能把存在可用窗口写成任意点结论，不能把单侧直接写成绝对值界，也不能把依赖 $\varepsilon$ 的阈值假装与 $\varepsilon$ 无关。\src{Development/AutomorphicArithmetic/DedekindLFunctions/LandauTheorems/ChCore.lean}{L343-L351}{中间解析命题的输入和量词}。再往下的一个明确接口是 \texttt{WindowHyp}。对固定 $\theta,\delta$ 和字符族，它要求对每个 $\eta>0$ 与每个起点下限 $Y_0$，都能选 $Y\ge Y_0$ 和一个非负上盖 $R$，令混合偏差在 $[Y,Y^{1+\delta}]$ 上逐点不超过 $R$，而且
+\[
+       \int_Y^{Y^{1+\delta}}R(y)y^{-\theta-1}\,dy\le Y^\eta .
+\]
+可积性是单列的条件。这是“任意靠后有够长的可用窗口”的准确量词，不是说任意这样的窗口都已受控。\src{Development/AutomorphicArithmetic/DedekindLFunctions/CharFamily.lean}{L38-L42}{窗口假设与加权积分}。
+
+书稿若要覆盖 RH 的完整论证，需把这里再接到精确的非平凡零点判据，而不是仅把 $S(x)$ 放回结尾。
+
+\section{500 页能装下什么}
+本章实际完成的，是把中段依赖拆成读者可以复算的局部：受服务素数的补偿和分母方向、全局整对偶格、有限维秩不等式、阈值积分、两次抵消。读者无需读数千条源码辅助声明，就能看出换掉 $C$、$h_u$、或者 $B_u$ 的任何一个会在哪一行失败。这说明压缩不必损失审计性。
+
+但这段能写成试读稿，不等于整部证明已经可以独立压成 500 页。真正的计价单位应是“尚未重证的输入”，而不是 Lean 的行数。以下是以数论研究生为读者、允许明引标准定理、只写经典 RH 的试编预算：
+\begin{center}
+\begin{tabularx}{\linewidth}{@{}Xr@{}}
+\toprule
+职责 & 页数预算\\\midrule
+解析判据、窗口、辅助域与标准工具 & 120\\
+局部提升、整除、平移与 Frame，两侧估计 & 230\\
+Galois、Sha、余体积等算术输入 & 85\\
+全局装配、量词、依赖和源码索引 & 65\\\midrule
+合计 & 500\\\bottomrule
+\end{tabularx}
+\end{center}
+这不是已经实现的页数承诺。最应先压测的是两个大输入：真实局部 theta 链如何逐例外地产生可用下界，以及真实周期族的非对角 Gram 控制如何得到足够小的量。前者若只列结论，读者看不到素数收益从哪里来；后者若只给个等距例子，读者看不到方向为什么不扎堆。就是否可读而言，能否写清这两处比减少记号或合并小引理更重要。
+
+\subsection*{书稿的验收办法}
+请有代数数论基础的读者不看 Lean，先读两条支路和合流处，能自己回答以下问题：
+\begin{enumerate}
+ \item 为什么补偿向上取整、平移向下取整？分别在哪种单位上算？
+ \item 为什么大迹不够，平方迹还需要完整目标维数？
+ \item 哪三条事实保证过滤后的像进的是实际的 $C(\tau)$？
+ \item 如果把第二次相消中的 $C$ 改成同秩异度量格，哪行先错？
+ \item 哪些新引理靠书稿的证明，哪些依赖源码或外部已有定理？
+\end{enumerate}
+倘若答不上最后一问，这只能算一份导览，不能称独立证明。若前四问可答而第五问有明确的依赖表，则已达到“读懂路线并追查关键环节”的标准。经典 ζ 情形先独立成书；Dirichlet GRH 可以做后续卷，不抢占这 500 页的预算。
+
+\subsection*{阅读对照}
+未另标来源的演示与算例由本次审读组织，源代码用于核对精确接口和依赖。对照材料包括 \href{https://www.math.uwaterloo.ca/~mrubinst/alpoge_claude_grh/zeta-paper.pdf}{Rubinstein 的 ζ 情形试稿}（尤其 III.5--III.8）、\href{https://tdupu.github.io/riemann-public/riemann-book.pdf}{Dupuy 的讲义与输入表}（表 3.3）以及 \href{https://leanprover-community.github.io/blog/posts/riemann-hypothesis/}{形式化项目联合说明}。所有源码链接均指向本章所审的固定版本，不据草稿尚未展开的输入断言证明不存在。

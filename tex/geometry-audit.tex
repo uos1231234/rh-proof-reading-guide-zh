@@ -1,0 +1,37 @@
+\section{哪一项对所有输入都为真？}
+
+\noindent\textbf{先给结论。} 证明中确实有一个不给输入设限的几何条件。它被最终证明引用，但负责核验定理的程序并不是这段代码。要分清三件事：哪一项为真、其余条件从哪来、最后核验的是什么命题。
+
+\subsection{恒真的只是几何一栏}
+
+Jenny Lorraine Nielsen 在批评稿中指出，原代码里有这样一行：
+\begin{quote}
+\small\verb|def anyGeometry : GeoP := fun _ _ _ => True|
+\end{quote}
+它有三个参数，三个下划线表示一概不用。无论代入哪组对象，得到的命题都是 $\mathrm{True}$。同一文件的 \texttt{geoOf} 则不同：它要求一个正整数和满足指定条件的几何见证，同时要求 \texttt{HasTrueSurf}。两种条件可以填进同一个位置，但用前者不会给出后者的见证。
+\src{Development/AbelianVarietyTheory/Definitions/AutomorphicMembership/OverIx.lean}{L16-L19}{查看定义}；
+\href{https://philpeople.org/profiles/jenny-lorraine-nielsen/publications?order=viewings}{查看批评稿摘要}。
+
+代码把这个条件包在 \texttt{GeoCl} 里。它的基本构造只要求先给出底层条件的证明。底层若是 $\mathrm{True}$，基本构造对任意类型相符的输入都能填上。这里确实没有筛选，但筛的是一项几何条件，不是零点。就像把一道题的一栏标为「无需填写」，不能据此把其余各栏也算作答完。
+
+\subsection{最终证明用到了它}
+
+沿最终定理往回追，确实能走到这项恒真条件。原码在证明「存在一组满足后续条件的数据」时，把它传给了组装这些数据的三处调用。两份依赖审计也找到了这条引用链。Nielsen 点名的 \texttt{plugAll} 不在所审计版本的最终链上；这不改变恒真条件确实被引用的事实。
+\src{Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/SiegelEisensteinSecondTermHypotheses.lean}{L44-L73}{查看调用}；
+\href{https://github.com/harrytong/rh-verification/blob/main/RH_critics_dependency_findings.md}{查看依赖审计}。
+
+\newpage
+\subsection{真正要追的是其余前提}
+
+同一个构造还接收另外几项有内容的前提。例如，共体积是一个格的基本胞所占的体积；在二维里，就是两条基向量张成的平行四边形面积。$h_X$ 给出的界，控制每个合格数据族在尺度足够大时的归一化对数共体积。代码把这条界用在选出的各个分量上。另两项前提分工不同：$h_M$ 保证合格数据存在实处和有限处的匹配；$h_A$ 控制匹配后两边 $\theta$ 积分的比例关系等，并不要求它们直接相等。构造检验向量和取值网格都用到了这两项。
+
+这些数据组装好以后，代码再用一条引理排除狄利克雷 $L$ 函数在临界线右侧的零点（极点另行排除），最后推出普通黎曼猜想。读这一段时，应追问共体积界从哪里来、局部匹配怎样进入整体估计，以及哪条引理把估计变成无零点结论。不能把「几何一栏通过」写成「已经找到了实际的几何见证」。
+
+\subsection{怎样排除「核验器照单全收」}
+
+核验者只用 Mathlib 另写了待证命题，再与这份代码推出的定理比较。两边匹配的是原来的黎曼猜想：$\zeta$ 的每个非平凡零点实部等于 $1/2$，不是 $\mathrm{True}$。独立检查器复核了静态导出的证明项，不运行项目自带的证明生成代码。五条主要定理使用的公理都是 Lean 的三条标准公理。
+\href{https://leanprover-community.github.io/blog/posts/riemann-hypothesis/}{Lean 与 Mathlib 联合声明}；
+\href{https://math.mit.edu/~drew/grh/}{MIT 核验记录}。
+
+还有一个对照实验：Carlos Toledo 把导出中普通黎曼猜想定理的目标类型改成 $\mathrm{False}$，保留原证明项不变。两套检查器 \texttt{nanoda} 和 \texttt{con-leche} 都拒绝了这份改过的输入。这检验的是检查器能否拒绝错误，不代替前面那些数学步骤的解释。
+\href{https://carlostoledo.co/reports/alpoge-grh.html\#changes}{11 月 22 日实验记录}。

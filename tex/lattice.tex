@@ -1,0 +1,45 @@
+\section{把局部整除变成对偶格包含}
+\subsection{先把分母真正花出去}
+令 $B(x,y)=125xy$，原来的两边都是 $\Zz$。所有配对值都被 $5^3$ 整除，故可把第一边换成 $5^{-3}\Zz$：若 $x'=x/125$，新值是 $xy$，仍是整数。换格时没有改配对公式，第二格也未改变。正的整除预算对应第一格的\emph{扩大}；乘上 $125$ 虽不会破坏整性，却没用上预算。不应把秩一玩具里的 $125$ 当成真正算术中的公共元素。
+
+在系数域 $K$ 的有限处 $w$，令 $v_w$ 是整数值的离散赋值，$\pi_w$ 是均匀化元。原格上的非零值若满足 $v_w(B_u(\phi,F))\ge q_w$，则对平移后的元素 $\pi_w^{-q_w}\phi$，
+\[
+ v_w\bigl(B_u(\pi_w^{-q_w}\phi,F)\bigr)
+     =v_w\bigl(B_u(\phi,F)\bigr)-q_w\ge0.
+\]
+零值本来就整。$q_w$ 是整数，可以为负；负数的意义正是这个地点必须收缩格。若先得到的是实数尺度上的 $sg(u,w)$，源码用 $q_w=\lfloor e_w sg(u,w)\rfloor$，$e_w=v_w(p)$ 是换成整数赋值单位所需的正因子。只有既定的下界 $3$ 时，除以四个 $\pi_w$ 可能失败。若已经知道整数值赋值至少为 $3.2$，它其实至少为 $4$；采用向下取整是留有余量的统一约定，不是声称下取整给出最强的可除幂。
+
+\subsection{这不是对所有素数做同一种运算}
+$q_w$ 只在有限多个地点非零。用分式理想
+\[
+   I_u=\prod_w\mathfrak p_w^{-q_w},\qquad N_u=I_uN_u^0
+\]
+把局部平移一起实施。即使某个 $\mathfrak p_w$ 不是主理想，局部化仍能用均匀化元描述。局部证明还要把选定格上的代数配对与实际复周期配对对上。把分母在 $w$ 外清掉也不等于所有地方都已检查：$1/2$ 在 $3$ 处整，在 $2$ 处不整。
+
+全局包含可直接验证。任取 $\phi\in N_u$ 与 $F\in R$。对每个 $w$，先将它们局部化；第一变量属于 $I_{u,w}N^0_{u,w}$，第二变量必须属于\emph{同一} $R$ 在 $w$ 的测试格。只要每处使用的值是同一 $y=B_u(\phi,F)\in K$，每处检查给出 $y\in\mathcal O_{K,w}$，取交得 $y\in\mathcal O_K$。这就证明 $B_u(N_u)\subseteq C$。若最初手里只有“各处分别存在一个 $y_w$”，从中不能直接推出存在同一个 $y$。实际源码用固定的代数配对及其指定复嵌入来辨认这些值，再经过局部格的自然性、共同格及例外地点处理。\src{Formalism/QuotientMetricDivisors/DivIntoDual.lean}{L17-L61}{对偶格内的整性}；\src{Formalism/LocalToGlobal/Divisibility/RecBridge.lean}{L128-L153}{整性在桥接数据中的位置}。
+
+\subsection{实际链条的整除预算从哪里来}
+取一个固定的 $u,w$。针对所选词，把原来的复 theta 链和局部代数链绑在同一个有理端点上：同一对象在选定嵌入处表示实际复链，在指定局部处表示选中的代数链。源码从初始输入逐步归纳：每步先用有理性取下一层的代数代表，复嵌入给出真实的下一步；同一步的交换关系则把这个代表送到局部链的下一步。归纳保持的是两个等式同时成立，不是分别从两边挑选两个彼此无关的端点。\src{Development/AbelianVarietyTheory/Proofs/SatakeParameters/LatticeValuationBound.lean}{L27-L40}{同一端点的双重代表}。这里需要追查的不只是“某条代数链有估值”，而是它就是\emph{负责这个实际周期的那条链}。达到末端后，局部列定理计入每步有效收益、附加类型项和误差。列与最终配对之间还要乘实际标量、扣掉稳定子的分母效应，并用同一有限处归一化。普通、非水平且非类型的地点，列阈值预先带的 $+vDG$ 与转成周期时的 $-vDG$ 正好抵消；因此不能把它另列成最终多扣的一项。\src{Formalism/SharpRestriction/GrowthBounds/WeilJacquetShalikaLaw.lean}{L419-L437}{实际周期估值的扣项}；\src{Formalism/SharpRestriction/GrowthBounds/WeilJacquetShalikaLaw.lean}{L504-L532}{普通地点的抵消}。把早一级列的估值原样抄成配对估值，或者每步重复扣除只出现一次的量，都可能改变答案。\src{Formalism/SharpRestriction/GrowthBounds/WeilJacquetShalikaLaw.lean}{L73-L106}{列与端点的中间式}；\src{Formalism/SharpRestriction/Divisibility/LocalQuadraticParts.lean}{L206-L221}{实际配对估值}。
+
+关键的生成元问题来自一个容易看漏的地方。所用格不是由所有轨道一视同仁地产生；一个生成元可以只有 $S\subseteq VV$ 内的因子使用增强版，其余用基准版。固定受服务素数 $p$，记第 $j$ 步的增强下界为 $A_j$、基准下界为 $B_j$。漏掉某个本应增强的轨道，安全损失是
+\[
+            \sum_j \max(A_j-B_j,0).
+\]
+这里只计算短缺；某步的较弱目标不是借款，不把它随意用来抵销别步欠账。源码用 $p$ 的整幂补足：先逐步相加，再对该轨道的总短缺向上取整，随后把生成元上的约束延伸到所张成的格。这个取整与上节的 $q_w$ 是两件事：一个确保缺口\emph{补够}，另一个确保可花费的预算\emph{不过支}。\href{https://github.com/leanprover-community/riemann-hypothesis/issues/77}{问题 \#77} 针对的就是这一步的可读性，并未给出反例。
+
+沿用问题 \#77 的两步算例：增强本可给出 $3.25+4=7.25$，基准只给 $1+4=5$。缺 $2.25$，额外乘 $p^2$ 仍只有 $7$；乘 $p^3$ 后达到 $8$。这里的 $3$ 是按有理素数归一化的幂数。如果固定地点上 $v_w(p)=e_w$，则在整数尺度上增加 $3e_w$，不是 $3/e_w$。不同辅助域在 $p$ 上方的地点可以有不同归一因子，换算时依赖的是同一个 $p$，不是强行令两个因子相等。这个示例只重构补偿机制，不能自行导出 $A_j,B_j$。
+
+最后所得可用接口是：对固定 $u,w$、规定的原格元素和指定分量的测试格元素，存在相应代数值，其复像是实际配对；若该值不为零，整数赋值至少为 $q_w$。普通地点、类型地点、轨道例外、以及被排除的素数，不应靠一个普通 $p$ 的例子一并覆盖。对非零配对作估值同样不表示每个词给出的映射都非零。
+
+\subsection{格变大，斜率为什么恰好增加}
+记 $d_u=\rk_K N_u^0=\rk_K N_u$，$l_w=\log(\operatorname{Norm}\mathfrak p_w)/[K:\mathbb Q]$ 为地点的对数权重，以下均比较同一无穷处度量下的正秩格。在整数赋值单位下，一个 $d_u$ 维的局部格乘以 $\pi_w^{-q_w}$，有符号指数为 $-d_uq_w$；例如在当地选一组基，此操作就是乘标量的对角矩阵。源码以 $2l_w$ 计这个指数在对数余体积中的贡献。用 $\mu=-\operatorname{lcv}/d_u$ 转为斜率，便得到
+\[
+\begin{aligned}
+ \operatorname{lcv}(N_u)-\operatorname{lcv}(N_u^0)
+       &=-2d_u\sum_w l_w q_w,\\
+ \mu(N_u)-\mu(N_u^0)&=2\sum_w l_wq_w.
+\end{aligned}
+\]
+这里 $d_u$ 消掉了，不可把每个格的收益再乘一次秩；筛选子格本身有共长度代价，那个代价不一定这样消掉。取整和前置删减各有明确的损失项。若直接用 $e_wsg$ 代替 $q_w$，漏掉的是小数部分带来的 $2\sum_w l_w\{e_wsg(u,w)\}$。这笔损失非负，只在实际支撑处累积。\src{Formalism/QuotientMetricDivisors/DivIntoDualShift.lean}{L18-L27}{分式理想的负号}；\src{Formalism/QuotientMetricDivisors/DivIntoDualShift.lean}{L40-L61}{斜率变化公式}。
+
+一个在 $\Zz[i]$ 上可全算的例子：取 $\pi=2+i$，理想范数是 $5$。把 $\Zz[i]^2$ 先缩成 $\pi\Zz[i]\oplus\Zz[i]$，实余体积乘以 $5$。再将这两个坐标都乘 $\pi^{-3}$，实余体积乘以 $5^{-6}$。结果相对原格的因子为 $5^{-5}$，因此秩归一化的斜率增加 $\tfrac52\log5$；它正好是放宽所得 $3\log5$ 减去缩格成本 $\tfrac12\log5$。这也解释了为什么不能把“删掉一列”和“同倍率平移所有列”用同一个式子作账。

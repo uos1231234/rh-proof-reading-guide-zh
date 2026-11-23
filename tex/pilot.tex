@@ -1,0 +1,64 @@
+\documentclass[11pt,a5paper]{article}
+\usepackage[margin=17mm,headsep=5mm]{geometry}
+\usepackage{amsmath,amssymb,mathtools,xcolor,fancyhdr,booktabs,tabularx,titlesec}
+\usepackage[colorlinks=true,linkcolor=blue!46!black,urlcolor=blue!45!black]{hyperref}
+
+\usepackage{fontspec}
+\setmainfont[AutoFakeSlant=0.16]{Noto Serif CJK SC}
+\setsansfont{Noto Sans CJK SC}
+\XeTeXlinebreaklocale "zh"
+\XeTeXlinebreakskip=0pt plus 0.15em
+\renewcommand{\contentsname}{阅读路线}
+\setlength{\parindent}{2em}
+\setlength{\parskip}{.28em}
+\linespread{1.20}
+\allowdisplaybreaks[2]\setlength{\emergencystretch}{1em}
+\definecolor{ink}{HTML}{17344B}
+\titleformat{\section}{\Large\bfseries\sffamily\color{ink}}{\thesection}{0.6em}{}\titleformat{\subsection}{\large\bfseries\sffamily\color{ink}}{\thesubsection}{0.6em}{}\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small 数学证明审读}\fancyhead[R]{\small 从整除到黎曼猜想}
+\fancyfoot[C]{\small\thepage}
+\setlength{\headheight}{15pt}
+\newcommand{\rk}{\operatorname{rk}}
+\newcommand{\tr}{\operatorname{tr}}
+\newcommand{\Gal}{\operatorname{Gal}}
+\newcommand{\Span}{\operatorname{span}}
+\newcommand{\src}[3]{\href{https://github.com/leanprover-community/riemann-hypothesis/blob/40e56bab026552e089d7afcfeff08d2defb9c005/src/#1\##2}{#3}}
+\newcommand{\Rr}{\mathbb R}
+\newcommand{\Cc}{\mathbb C}
+\newcommand{\Zz}{\mathbb Z}
+\begin{document}
+\thispagestyle{empty}
+{\sffamily\color{ink}\LARGE\bfseries 从整除到黎曼猜想\par}
+\smallskip
+{\sffamily\small 试读修订版 · 2026 年 11 月 23 日\par}
+\medskip
+
+\noindent\textbf{要证明什么？} 满足 $\zeta(s)=0$ 的 $s$ 叫零点。负偶数上的零点早已知道；黎曼猜想说，其余零点都在实部为 $1/2$ 的直线上。若能对每个 $\varepsilon>0$ 排除 $\operatorname{Re}s>1/2+\varepsilon$ 的非平凡零点，就排除了整条直线右侧：一个零点如果在右边，取它到直线距离的一半作 $\varepsilon$ 即可。再由零点关于临界线的对称性排除左侧。要任意缩小的是允许的\textbf{横向距离}，不是零点的高度。
+
+\noindent\textbf{本章做哪一步？} 这条证明路线先估计一项由素数幂算出的偏差。可以把它理解为：按一条规则给每个素数幂记分，把分数相加，再减去一个明确的基准值，称为主项。第 1 节写出这个偏差。证明并不直接检查零点，而是先约束偏差，再用解析判据排除右边的零点。本章讲清其中的代数步骤：\textbf{整除为什么能限制这个偏差？}
+
+\noindent\textbf{先看一个整数。} 若 $A\ne0$，且 $125$ 和 $49$ 都整除 $A$，因为二者互素，$125\cdot49=6125$ 也整除 $A$，所以 $|A|\ge6125$。若又能证明同一个 $A$ 的绝对值小于 $6125$，两条信息就不能同时成立。整除给下限，另一边给上限；\textbf{比较的必须是同一个数}。
+
+真实证明用的不是这样一个整数，而是许多有联系的数。一边证明它们满足哪些整除，另一边限制这些数的大小，还要核对它们写成矩阵之后占了多少独立方向。两路合起来，才给出偏差上界所需的代数估计。单凭整除，既不能给出上界，也不能知道有几个独立方向。
+
+\vfill
+{\small 本章解释这段推导，并标出所用的外部结果；不在这里独立重证整个黎曼猜想。第 8 节核对「所有输入都判真」的说法。源码链接固定到提交 \texttt{40e56bab}。\par}
+\newpage
+\setcounter{tocdepth}{1}
+\hypersetup{bookmarksdepth=2}
+\tableofcontents
+\vspace{0.65cm}
+\noindent\textbf{第一次读：} 先读第 1 节，找出要估计的偏差以及两条证据在哪里会合。第 2、3 节拆开讲整除、矩阵和斜率；第 5 节把它们合起来。第 4 节供想追查实际矩阵和源码的读者回看。
+
+\medskip
+\noindent\textbf{不必先学全套工具。} 开头只用整除、坐标和例子。格、对偶和斜率在用到时解释；解析公式单列，不是继续读代数部分的门槛。
+\newpage
+\input{opening}
+\input{lattice}
+\input{frame}
+\input{upstream}
+\input{closing}
+\input{checklist}
+\clearpage
+\input{geometry-audit}
+\end{document}

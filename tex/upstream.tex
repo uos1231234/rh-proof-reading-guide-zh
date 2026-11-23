@@ -1,0 +1,85 @@
+\section{真实周期矩阵的平方迹从哪里来}
+前一节的秩引理只需要一些内积和矩阵。它不会替你证明，真正从 theta 提升链来的矩阵就具有那么小的误差。这里把源码中的两路输入拆开看：一路认出正在估的矩阵，另一路提供相关性的大小。只有到两路接上，形式化的 Frame 结果才能用于真实格。
+
+\subsection{第一路：辨认矩阵，而不是估范数}
+为免与上一节实际源秩 $d_u$ 混淆，记未压缩块为 $P_u:\Cc^{b_u}\to\Cc^D$，压缩后的块为 $P_uV_u$，其中 $V_u$ 是从 $d_u$ 维源空间到 $b_u$ 维空间的等距嵌入。$D$ 包含辅助行；真实行数记作 $D'\le D$，另一个出现在点计数和归一化中的量叫 $D_\star$。这三个数不预先相等。
+
+BesselId 在这里不是一条从非负性突然推出的范数小结论。它确认两种方式写出来的配对是同一个。其一从数域配对 $B_k(u)$ 出发，在选定无穷处嵌入；其二从已有的周期配对出发，把输入放入 Hermite 空间，再用剪前块计算。源码中的复配对可以写成
+\[
+ B_u(\phi,F)=a_u\,
+     \operatorname{bes}_u(U_u\phi,VF),
+ \qquad a_u\ne0.
+\]
+这里 $U_u$ 随 $u$ 变化，$V$ 是整个族共用的目标侧变换；两者在此接口中是酉变换。前式只识别配对，非零系数 $a_u$ 不是下节的正归一化权 $\gamma_u$。
+
+证明中的辨认不是比较两个空洞的名字。它在同一 $(u,t)$ 上使用实际运输的周期列，与选定 theta 像的 Hermite 配对作比较。$t$ 记检验端的一个索引。再经各分量的代表和拼接，等式才得到对规定全部输入的版本；数域配对与复周期的识别是另外一项，最终并入同一接口。真实行上的剪后块这时才可写作
+\[
+                  Z\,\sigma([B_k(u)])\,Y_u ,
+\]
+其中 $Z$ 是公共目标坐标变换，$Y_u$ 是各源端变换并吸收 $a_u^{-1}$。$\sigma$ 取指定复嵌入，源码也处理经复共轭的坐标表达。公共 $Z$ 是必要的：假如每个字都任意转动目标坐标，逐块的 Gram 不变，叠在一起的张成空间却可能变小。两组四向量例子恰好警示了这点。\src{Formalism/LocalToGlobal/IndefiniteReal/IsometricPeriodsOfHypotheses.lean}{L97-L106}{运输后实际配对的等式}；\src{Formalism/LocalToGlobal/Divisibility/RecBridge.lean}{L327-L332}{数域配对与 BesselId 的合成}；\src{Formalism/SharpRestriction/GlobalSchurBounds/TopDensityNGeSixteen.lean}{L1283-L1315}{实际行与公共坐标}。
+
+\subsection{第二路：哪些算术界需要另给}
+取来源规定的正权 $\gamma_u=1/c_0(u)$，在压缩前定义交叉块
+\[
+            K^f_{uv}=\sqrt{\gamma_u\gamma_v}\,P_u^*P_v.
+\]
+LinkS 给的是相互区分的三条界：
+\[
+\begin{aligned}
+ \|K^f_{uu}-I\|_{\mathrm{HS}}^2&\le e_0 b_u,\\
+ \|K^f_{uv}\|_{\mathrm{HS}}^2
+       &\le\frac{(1+\eta_0)b_ub_v}{D_\star}\quad(u\ne v),\\
+ D&\le(1+\eta_1)D_\star.
+\end{aligned}
+\]
+第一条说各字分别不坏，第二条才说字与字放在一起也不太坏，第三条把计数尺度与矩阵行数对齐。辅助行比例的 $\delta$ 由 LinkIRR 的行数控制，不是这里的源端删减。要另有维数下限与可控的源方向删减，否则坏掉的行列比例会把这些精度吃掉。把 $D_\star$ 一开始当作真实行数，会悄悄移除第三条的证明任务。\src{Formalism/SharpRestriction/GlobalSchurBounds/TopDensityNGeSixteen.lean}{L817-L852}{对角、非对角和行数输入}。
+
+非对角那一条的上一层并不是重复做一次 Cauchy--Schwarz。源码经核展开、收敛和消失性，将块的平方范数对应到特定的主核；然后调用针对已选参数的非对角核界。对角和点计数经另外的接口组合进来。这一节已追到它们因何有权谈论同一组矩阵；\emph{没有独立重证主核的定量估计及上游选族}。若写整部传统证明，那里应写成能从原始数据构造核并推出界的章节，而不只是把 LinkS 整句复制进来。\src{Formalism/LocalToGlobal/SiegelLatticeTheory/FlagStabilizerTensors/PackageTie.lean}{L225-L235}{块平方范数的核公式}；\src{Formalism/LocalToGlobal/SiegelLatticeTheory/FlagStabilizerTensors/LinkSFinalP.lean}{L98-L114}{非对角的定量输入}；\src{Formalism/LocalToGlobal/SiegelLatticeTheory/FlagStabilizerTensors/LinkSPos.lean}{L149-L161}{对角界与计数的接口}。
+
+
+\subsection{异字核界再向上追了一层}
+沿实际选中族往上走，实际入口是 LinkS 的「零项已经处理」分支。异字核估计在这个入口由行估计送到核上，再调用专门对不同词成立的定理。这一点要紧：仓库里相近的通用包装不一定是实际执行路径。这里只称“异字”的是两个不同的词 $u\ne v$，不是说所有坐标向量天然不相关。\src{Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/LinkAltAltBis.lean}{L39-L47}{选定主链的调用}；\src{Development/AbelianVarietyTheory/Proofs/FlagMeasures/OffK0Closed.lean}{L673-L683}{异字输入的实际构造}。
+
+异字所做的一件实质性工作，是让一个退化核部分消失。另一方面，恒等胞腔的退化条件对所有配对都另行成立，不能把它和 $u\ne v$ 的结果混为一谈。二者移除的是不同项。“异字”本身并不从逻辑上推出“小”字；剩下的逐类大小要靠定量估计。\src{Formalism/LocalToGlobal/SiegelLatticeTheory/FlagStabilizerTensors/PackageTie.lean}{L225-L235}{消失条件怎样进入核平方公式}。
+
+具体估的是带权内积的绝对值之和，而不是要求每条向量的范数都小。源码先把贡献切成几类。亏秩至少二的部分，以及泛型亏秩一中不属于标量主项的部分，交给绝对上界；在那里先用三类积分或格点估计，控制各种退化情形。经参数比较，形如 $\exp(-kf\log k/2)$ 的项乘上前因子后，仍可压到 $\exp(-kf\log k/3)$ 一类的界。此步不是对每条向量单独算范数，而是先控制类内总量，再按并集分给各个误差项。\src{Formalism/HermitianCurvature/StatementPB.lean}{L400-L408}{绝对界的输入形状}；\src{Formalism/HermitianCurvature/HermitianCurvatureProofs/GrowthOfBasic.lean}{L1191-L1228}{格点估计的组合与指数预算}。
+
+主项并没有全部消失。泛型亏秩一中的标量部分有一个保留的行主项；非泛部分则用另一个误差约束。到最后一层才利用归一化、主项偏差和其它小量，把这几类加成带 $1+b^{-6}$ 的目标界。这个 $1$ 不是记账疏漏：目标本来也不是让异字的每一对内积都严格为零，而是控制平方范数的总量与维数尺度之间的比例。把所有异字项一律设成零，反而不是这份证明。\src{Formalism/HermitianCurvature/HermitianCurvatureProofs/GrowthOfBasic.lean}{L464-L550}{主项保留和各类合并}。
+
+现在可以明确说，剩余难点不在最后的指数代数，也不在上节的平方迹恒等式。所选族先各自取得统一的局部计数常数和大间隙振幅界，再与小胞腔体积、项编码的单射及固定格的条件合并；这是代码里把抽象上界用到实际族的关口。\src{Development/AbelianVarietyTheory/Proofs/FlagMeasures/LoopRowBoundsAlongFamilyLargeGaps.lean}{L25-L43}{所选族的统一估计}。需要独立写出的是三类上界为何对实际选中局部对象成立，尤其是大间隙下的 Bessel／Whittaker 控制、格点和与余体积如何交叉使用。若这些部分只能引用 Lean 声明，中段教材化仍能成立，但不能把整部书称作可脱离源码逐条重证的纸笔证明。
+
+\subsection{三条算术界合成一个矩阵误差}
+令 $A_u=\sqrt{\gamma_u}P_uV_u$，$Q=\sum_u A_uA_u^*$，$T=\tr Q$。循环移迹给出
+\[
+                \tr(Q^2)
+                =\sum_{u,v}\|V_u^*K^f_{uv}V_v\|^2_{\mathrm{HS}}.
+\]
+推导只需将 $Q^2$ 展开，并将 $A_u^*A_v$ 与它的伴随移到迹号内。等距嵌入对应的压缩不放大每项。设 $R_s=\sum_u b_u$。用三角不等式，剪前对角项总量不超过 $(1+\sqrt{e_0})^2R_s$；对非对角项求和则不超过 $(1+\eta_0)R_s^2/D_\star$。两类贡献尺度不同，不能从第一项小推出第二项也小。用 $D_\star/\mathrm{sg}\le R_s$，对角总量才能按二次尺度一起入账：
+\[
+ \tr(Q^2)\le
+ \Bigl(1+\eta_0+\mathrm{sg}(1+\sqrt{e_0})^2\Bigr)
+              \frac{R_s^2}{D_\star}.
+\]
+压缩后的对角误差满足
+\[
+ \sum_u\|V_u^*(K^f_{uu}-I)V_u\|^2_{\mathrm{HS}}\le e_0 R_s.
+\]
+因为 $V_u^*V_u=I$，压缩前与压缩后对恒等的偏差能在这里相接。若实际源秩总和至少 $(1-\mathrm{de})R_s$，则按实际源秩归一的误差最多为 $e_0/(1-\mathrm{de})$。这一步把误差转进了前节的 $e$，而不是沿用剪前平均值。
+
+再设压缩前后损失的源维数不超过 $\mathrm{de}\,R_s$。剪前总迹至少 $(1-\sqrt{e_0})R_s$。用前节的投影方法减去被删的源方向，它们带走的迹不超过 $(\mathrm{de}+\sqrt{\mathrm{de}\,e_0})R_s$。于是
+\[
+   T\ge(1-\sqrt{e_0}-\mathrm{de}
+                   -\sqrt{\mathrm{de}\,e_0})R_s.
+\]
+令 $\beta=1-\sqrt{e_0}-\mathrm{de}-\sqrt{\mathrm{de}\,e_0}$。在 $\beta>0$ 下，代入行数比较得到可直接复算的上界
+\[
+ \frac{D\tr(Q^2)}{T^2}
+ \le\frac{(1+\eta_1)
+       (1+\eta_0+\mathrm{sg}(1+\sqrt{e_0})^2)}{\beta^2}.
+\]
+再由 $\eta_0,\eta_1\le\mathrm{sg}/2$、$\sqrt{e_0}\le\mathrm{sg}/2$ 得到
+\[
+ \tr(Q^2)-T^2/D\le\eta T^2/D,\qquad
+ \eta=5x^{-CH}+3\sqrt{\mathrm{de}} .
+\]
+这里 $CH$ 是该段的参数，$\mathrm{sg}=x^{-CH}$，不能把出现在常数中的 $\mathrm{de}$ 当作某一次过滤丢掉的比例 $\alpha$。前者是源矩阵建模时的压缩损失，后者是已经得到实际格以后，在斜率阈值上再删掉的方向。以上推导解释了为何真正要查的是非对角核与计数，而不是试图在已成立的有限维迹不等式里找出凭空的数论。\src{Formalism/SizeWindowBrackets/ChainSlopeWindows/TraceConjTransposeMulSelf.lean}{L549-L625}{迹和压缩所用的界}；\src{Formalism/SharpRestriction/GlobalSchurBounds/TopDensityNGeSixteen.lean}{L602-L646}{实际小量与最终参数}。

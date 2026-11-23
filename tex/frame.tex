@@ -1,0 +1,103 @@
+\section{从保留下来的方向到斜率}
+\subsection{同一个映射有三本账}
+整性、复矩阵和高度不是彼此独立任选的条件。取 $K=\mathbb Q(i)$，$\pi=2+i$，源格 $N=\pi^{-1}\Zz[i]$，目标 $C=\Zz[i]$，复度量都取标准度量。用恒等映射，则算子范数是 $1$，高度是零，Gram 正好为单位矩阵。源格的实余体积却缩为目标的 $1/5$，因而斜率高 $\log5$。若只凭复矩阵漂亮便说目标斜率不能低于源斜率，这里就会失败：$1/\pi$ 并不被送进 $C$。改用乘 $\pi$ 的映射，整性恢复，但用平方范数算的高度也增加 $\log5$，恰好补回。这个反例只是否定删去整性后的规则，并不针对数论中的已选族。
+
+\subsection{迹只数总量，平方迹区分扎堆}
+取四个从 $\Cc$ 到 $\Cc^4$ 的映射，每个把 $1$ 送到单位向量。第一组选 $e_1,e_2,e_3,e_4$，第二组选 $e_1,e_1,e_2,e_2$。所有映射单独看都保长度，然而第一组张成四维，第二组只张成二维。将各向量的外积相加，得到两组矩阵
+\[
+ Q_1=I_4,\qquad Q_2=\operatorname{diag}(2,2,0,0).
+\]
+两组迹都是 $4$，但 $\tr(Q_1^2)=4$、$\tr(Q_2^2)=8$。如果 $Q\ne0$ 是半正定矩阵，柯西–施瓦茨对其正特征值给出
+\[
+                  (\tr Q)^2\le \rk(Q)\tr(Q^2).
+\]
+如果目标的全维数是 $D$，并且 $\tr(Q^2)\le (1+\eta)(\tr Q)^2/D$，就有 $\rk(Q)\ge D/(1+\eta)$。在第一组 $\eta=0$，第二组最小的 $\eta=1$，两组都达到相应下界。分母 $D$ 是已知的全维数，不是未求出的像秩，否则这条准则会变得空洞。
+
+\subsection{删掉输入之后，秩还能剩多少}
+设 $V_i$ 是各个复内积源空间，$H$ 为共同目标空间，$S=\sum_i\dim V_i>0$，$D=\dim H>0$。$D=0$ 时余维为零，无需以下除法。把正权重放进矩阵：$A_i=\sqrt{c_i}B_i$，$c_i>0$。记
+\[
+ E_i=A_i^*A_i-I_{V_i},\qquad Q=\sum_i A_i A_i^*,
+ \qquad T=\tr Q.
+\]
+设 $\sum_i\|E_i\|^2_{\mathrm{HS}}\le eS$，其中 $0\le e\le 1/4$；这里矩阵范数的平方是 $\tr(M^*M)$。再假设平方迹受控：\[\tr(Q^2)\le(1+\eta)T^2/D,\qquad \eta\ge0.\]删去的总维数至多 $\alpha S$，而保留的子空间为 $V_i'\subseteq V_i$。令 $W=(\sum_iA_iV_i')^\perp$，$d=\dim W$。我们要证明 $d$ 不太大。
+
+先用 $\tr(A_iA_i^*)=\tr(A_i^*A_i)$，把目标上的迹换至各源计算。对直和上的误差块与单位矩阵施用柯西–施瓦茨：
+\[
+ T=S+\sum_i\tr E_i
+ \ge S-\sqrt S\sqrt{\sum_i\|E_i\|^2_{\mathrm{HS}}}
+ \ge S(1-\sqrt e).
+\]
+所以 $T>0$。接下来从两个方向估 $W$ 分到的迹 $T_W=\tr(P_WQ)$。
+
+\textbf{上界。} 令 $R_i=(V_i')^\perp$，总维数 $k\le\alpha S$。由于 $W$ 与所有保留的像正交，$P_WA_i=P_WA_iP_{R_i}$。正交投影不增范数，因此
+\[
+\begin{aligned}
+ T_W &=\sum_i\|P_WA_i\|^2_{\mathrm{HS}}\\
+ &\le \sum_i\|A_iP_{R_i}\|^2_{\mathrm{HS}}
+ =k+\sum_i\tr(P_{R_i}E_i)\\
+ &\le k+\sqrt{k e S}\le S(\alpha+\sqrt{\alpha e}).
+\end{aligned}
+\]
+这里不要求 $R_i$ 对各个 Gram 矩阵不变。被保留的方向不会给 $W$ 贡献迹，因而只有被删去的方向能供给这笔“预算”。
+
+\textbf{下界。} 写 $Q=(T/D)I+J$，则 $\tr J=0$ 且
+\[
+ \|J\|^2_{\mathrm{HS}}=\tr(Q^2)-T^2/D\le\eta T^2/D.
+\]
+标量矩阵给 $W$ 分配 $dT/D$，实际值偏离至多 $\|P_W\|_{\mathrm{HS}}\|J\|_{\mathrm{HS}}$。故
+\[
+             T_W\ge (d/D)T-\sqrt{d\eta/D}\,T.
+\]
+令 $r=d/D$，合起来得
+\[
+          r-\sqrt{\eta r}
+             \le \frac{\alpha+\sqrt{\alpha e}}{1-\sqrt e}.
+\]
+若 $\alpha\ge1/4$，直接用 $r\le1$；否则利用 $1-\sqrt e\ge1/2$、$\sqrt{\alpha e}\le\sqrt e$，再用 $2\sqrt{\eta r}\le\eta+r$，得到
+\[
+                        d\le (\eta+4\alpha+4\sqrt e)D.
+\]
+第一组四向量删去一个源线时，$e=\eta=0$、$\alpha=1/4$。较强的中间不等式直接给 $d\le1$，正好等于实际丢失的一维。第二组没有删方向，也可能出现空位，这是另一种损失。\src{Formalism/HarderNarasimhan/HarderNarasimhanProofs/FrameLinearAlgebraFirst.lean}{L96-L221}{定理的迹估计}。
+
+\subsection{辅助行怎样投回真实周期矩阵}
+在实际族中，满足迹界的矩阵可以有额外辅助行。设 $L$ 为全行空间中的保留像之和，$P$ 是投向实际行的满射。由秩零化度定理，
+\[
+ \dim P(L)\ge \dim L-\dim\ker P.
+\]
+因而 $P(L)$ 在真实目标空间内的余维，不超过 $L$ 在全行空间内的余维。形式化证明核对的并非随意截一批行，而是实际行上的矩阵确实和格映射在指定复嵌入下对应。经过两侧坐标变换，$P(L)$ 包含于实际模像的复张成空间；秩在从 $K$ 扩张到 $\Cc$ 时保持，于是可以把余维界交给格上的过滤。右侧的 $D$ 仍是全行维数，不能擅自换成真行数。若真行数为 $D'$，且辅助行的比例不超过 $\delta<1$，则 $D'\ge(1-\delta)D$，故归一化的余维上界要除以 $1-\delta$。\src{Formalism/HarderNarasimhan/HarderNarasimhanProofs/TheoremFSharp.lean}{L40-L159}{实际行投影与复秩}。
+
+真正目标的秩也不能预先假定为正。如果它为零而 $\delta<1$，全行目标也只能为零，这会让每个 Gram 都为零。此时对角误差的总平方恰好为 $S$，与 $S>0$ 以及 $e\le1/4$ 冲突。因此目标的正秩在输入假设下得到，而非先假设所有映射都非零。
+
+\subsection{为何选高斜率方向}
+带度量的格可以有多层斜率，而不是只有一个平均值。Harder--Narasimhan 过滤按斜率从高到低列出这些层；每一个层的斜率按它的秩计重数。对本章的阅读，可以把它看作把一个单数 $\mu(N_u)$ 展开成 $d_u$ 个带顺序的数据。格的过滤本身不是对一个复矩阵做奇异值分解；它还带整数格的信息。
+
+设 $\mu_{\max}(N_u)$ 为最高斜率，
+\[
+\begin{aligned}
+ d_u&=\rk_KN_u,\
+ s&=\frac{\sum_u d_u\bigl(\mu(N_u)-h_u\bigr)}{\sum_u d_u},\\
+ U&=\max_u\bigl(\mu_{\max}(N_u)-h_u\bigr)-s\ge0.
+\end{aligned}
+\]
+这样，从各条源斜率中扣去该词的高度 $h_u$，所得数据均值为 $s$，且任何一个不超过 $s+U$。对 $\tau\ge0$，在第 $u$ 个格只留斜率至少 $s-\tau+h_u$ 的部分 $N_u(\tau)$。若删去的比例是 $a$，则均值至多 $a(s-\tau)+(1-a)(s+U)$。因而当 $U+\tau>0$ 时，
+\[
+                           a\le U/(U+\tau).
+\]
+若 $U=0$，每条调整后的斜率都等于 $s$，没有低于阈值的方向。按魔法般的“好方向”来解释这个筛选是不够的：选择阈值的理由，是它能同时给可控的删去比例，并且在高度扣除后让所有像达到同一个目标阈值。
+
+具体说，$B_u(N_u(\tau))$ 是 $C$ 内的模像，因为上一节已证明整性。若像非零，映射高度比较给其最低斜率至少为源的最低斜率减 $h_u$，因而至少为 $s-\tau$。过滤的极大性把它包含在 $C$ 同一阈值的部分 $C(\tau)$。若像为零，包含自然成立，无需对零映射取对数。这样所有保留像的和都在同一个 $C(\tau)$ 里，上一节的余维上界也就约束了 $C(\tau)$ 的余维。高秩绝不意味着 $B_u$ 各自单射，也并不要求每个词贡献非零。\src{Formalism/HarderNarasimhan/HarderNarasimhanProofs/TheoremFSharp.lean}{L277-L337}{实际过滤与秩界}。
+
+\subsection{沿阈值积分，得到平均斜率界}
+写目标格斜率为 $b_1,\ldots,b_{D'}$，按秩计重数。取 $H_0>0$，覆盖所有 $s-b_k$ 的正部。逐项积分指示函数得到
+\[
+ \frac{1}{D'}\sum_k(s-b_k)_+
+ =\int_0^{H_0}\frac{\#\{k:b_k<s-\tau\}}{D'}\,d\tau.
+\]
+例如两个目标斜率是 $s-2$ 和 $s+1$，则被积分比例从 $0$ 到 $2$ 是 $1/2$，之后为零，积分为 $1$。真实均值低于 $s$ 只是 $1/2$，因为正部不计高于阈值的抵消；因此用积分做上界方向是正确的。
+
+代入余维上界并按 $\tau$ 积分，得到
+\[
+ {\cal E}_{\mathrm{fr}}
+ =\frac{4U\log(1+H_0/U)+(\eta+4\sqrt e)H_0}{1-\delta}.
+\]
+$U=0$ 时第一项用连续延拓取零。因为 $s-\mu(C)\le D'^{-1}\sum_k(s-b_k)_+$，故在该接口下 $s\le\mu(C)+{\cal E}_{\mathrm{fr}}$。底层源码确有这条强式；实际组合层选用的是加了 $\log|\mathcal W|$ 的弱式，$\mathcal W$ 为词族。这里记录这一区别是为了忠实追踪主链，并不据此声称已经得到新的素数误差或改进指数。\src{Formalism/HarderNarasimhan/HarderNarasimhanProofs/TheoremFSharp.lean}{L338-L400}{积分和强弱两式}。
