@@ -31,6 +31,28 @@ $q_w$ 只在有限多个地点非零。用分式理想
 
 最后所得可用接口是：对固定 $u,w$、规定的原格元素和指定分量的测试格元素，存在相应代数值，其复像是实际配对；若该值不为零，整数赋值至少为 $q_w$。普通地点、类型地点、轨道例外、以及被排除的素数，不应靠一个普通 $p$ 的例子一并覆盖。对非零配对作估值同样不表示每个词给出的映射都非零。
 
+\subsection{同一个元素，为什么要在同一个地方保住它的阶？}
+\label{sec:same-place-order-zh}
+
+先看一个能手算的例子。我们要找一个元素：连续乘三次 $5$ 才变成零，而且无论检查原来的整除条件，还是只检查选定的一个素因子，答案都一样。
+
+在高斯整数 $\mathbb Z[i]$ 中，令 $\alpha=2+i$，$\beta=2-i$，则 $5=\alpha\beta$。两个因子是不同的高斯素数。取模数 $\alpha^4\beta^6$。在原商群里，变成零要同时凑足四个 $\alpha$ 和六个 $\beta$；在素理想 $(\alpha)$ 处局部化，只检查四个 $\alpha$，因为 $\beta$ 在那里可逆。每乘一次 $5$，两边各添一个因子。
+
+\begin{center}
+\begin{tabular}{@{}lccc@{}}
+\toprule
+元素 & 初始因子数 $(\alpha,\beta)$ & 原商群的阶 & $(\alpha)$ 处的阶\\
+\midrule
+$5(3-4i)=\alpha\beta^3$ & $(1,3)$ & $125$ & $125$\\
+$125=\alpha^3\beta^3$ & $(3,3)$ & $125$ & $5$\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+第一行再乘两次 $5$，只有三个 $\alpha$，还没有变成零；乘第三次，两项都恰好达标。第二行也要乘三次才能凑足六个 $\beta$，但在 $(\alpha)$ 处乘一次就够了。
+
+这两行都从 $5$ 出发。乘 $3-4i=\beta^2$，刚好补上另一处的因子，又不改变已经有的 $\alpha$ 个数；改乘 $25$，就提前添了两个 $\alpha$，反而缩短了在选定位置的阶。正式论证里，\href{https://github.com/CheyLoveday/RH-public/blob/1c1fbd7556931388818472fb812bc3161ab12fc7/papers/type-i-torsion/lean/src/Formalism/LocalToGlobal/GlobalTheory/GL6/DiagonalSlopes/TypeISamePlaceOrder.lean\#L72-L145}{同一位置的阶数论证}用的也是这个原则：选取一个不落在指定素理想中的乘子，使关系在原格里成立，又保住前一档在该处的非零性。上面只演示这一步，并非满足 Type I 筛选条件的原始算例。
+
 \subsection{格变大，斜率为什么恰好增加}
 记 $d_u=\rk_K N_u^0=\rk_K N_u$，$l_w=\log(\operatorname{Norm}\mathfrak p_w)/[K:\mathbb Q]$ 为地点的对数权重，以下均比较同一无穷处度量下的正秩格。在整数赋值单位下，一个 $d_u$ 维的局部格乘以 $\pi_w^{-q_w}$，有符号指数为 $-d_uq_w$；例如在当地选一组基，此操作就是乘标量的对角矩阵。源码以 $2l_w$ 计这个指数在对数余体积中的贡献。用 $\mu=-\operatorname{lcv}/d_u$ 转为斜率，便得到
 \[

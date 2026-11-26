@@ -1,11 +1,13 @@
 # A Chinese Reading Guide to Divisibility and the Riemann Hypothesis
 
-This repository contains the complete 27-page Chinese pilot chapter of an independent reader's guide to a selected part of the Alpöge-Claude formalization. It helps readers follow the mathematical argument and its Lean references. It is not a full exposition of the proof, a new proof, or a bug report.
+This repository contains the complete 28-page Chinese pilot chapter of an independent reader's guide to a selected part of the Alpöge-Claude formalization. It helps readers follow the mathematical argument and its Lean references. It is not a full exposition of the proof, a new proof, or a bug report.
 
 ## Start here
 
-- [Read or download the complete 27-page PDF](<https://github.com/uos1231234/rh-proof-reading-guide-zh/releases/download/pilot-2026-11-23/Reading-Pilot-2026-11-23.pdf>).
-- The same edition PDF is included in the repository root as `Reading-Pilot-2026-11-23.pdf`.
+- [Read or download the complete 28-page PDF](<https://github.com/uos1231234/rh-proof-reading-guide-zh/releases/download/pilot-2026-11-26/Reading-Pilot-2026-11-26.pdf>).
+- The same edition PDF is included in the repository root as `Reading-Pilot-2026-11-26.pdf`.
+- The [previous edition, 23 November 2026](https://github.com/uos1231234/rh-proof-reading-guide-zh/releases/tag/pilot-2026-11-23), is preserved.
+- This revision adds a pencil-and-paper comparison of order in a quotient and at a selected prime ideal (Section 2.4). It illustrates the same-place step; it is not an instance of the original Type I selector.
 - The editable LaTeX entry point is `tex/pilot.tex`.
 
 The chapter begins with the example that if 125 and 49 both divide the same nonzero integer, its absolute value is at least 6125. It then separates two roles in the formal argument: divisibility constrains which inputs can belong to a lattice, while matrix estimates control the size and independent directions of the images. These estimates must concern the same maps before they can be combined. The final section examines the constant-True `anyGeometry` field, where the final proof refers to it, and which other hypotheses still carry content.
@@ -31,11 +33,11 @@ xelatex pilot.tex
 xelatex pilot.tex
 ```
 
-The distributed edition is the complete 27-page PDF in the repository root and in the fixed Release linked above.
+The distributed edition is the complete 28-page PDF in the repository root and in the fixed Release linked above.
 
 ## Pinned formal source
 
-Lean source references in this edition point to the fixed upstream commit [`40e56bab026552e089d7afcfeff08d2defb9c005`](https://github.com/leanprover-community/riemann-hypothesis/tree/40e56bab026552e089d7afcfeff08d2defb9c005). This guide is an independent reader resource.
+References to the original Lean proof are pinned to upstream commit [`40e56bab026552e089d7afcfeff08d2defb9c005`](https://github.com/leanprover-community/riemann-hypothesis/tree/40e56bab026552e089d7afcfeff08d2defb9c005). Section 2.4 separately links to a pinned version of Chey Loveday’s same-place argument. This guide is an independent reader resource.
 
 ## Feedback
 
@@ -45,12 +47,14 @@ Open a focused issue in [this repository](<https://github.com/uos1231234/rh-proo
 
 # 中文导览
 
-本仓库发布一份完整的 27 页中文试读章，是对 Alpöge-Claude 形式化工作中一部分内容的独立读者导读，帮助读者跟上数学论证及其 Lean 代码引用。它不是完整证明的全面讲解、新证明或错误报告。
+本仓库发布一份完整的 28 页中文试读章，是对 Alpöge-Claude 形式化工作中一部分内容的独立读者导读，帮助读者跟上数学论证及其 Lean 代码引用。它不是完整证明的全面讲解、新证明或错误报告。
 
 ## 阅读入口
 
-- [阅读或下载完整 27 页 PDF](<https://github.com/uos1231234/rh-proof-reading-guide-zh/releases/download/pilot-2026-11-23/Reading-Pilot-2026-11-23.pdf>)。
-- 同版 PDF 也放在仓库根目录：`Reading-Pilot-2026-11-23.pdf`。
+- [阅读或下载完整 28 页 PDF](<https://github.com/uos1231234/rh-proof-reading-guide-zh/releases/download/pilot-2026-11-26/Reading-Pilot-2026-11-26.pdf>)。
+- 同版 PDF 也放在仓库根目录：`Reading-Pilot-2026-11-26.pdf`。
+- 保留 [2026 年 11 月 23 日的旧版](https://github.com/uos1231234/rh-proof-reading-guide-zh/releases/tag/pilot-2026-11-23)。
+- 本次修订在第 2.4 节增加阶 125 的手算对照，说明原商群的阶与指定素理想处的阶为什么可能不同。这个例子只演示保阶原理，不是 Type I 筛选出的原始实例。
 - 可编辑的 LaTeX 主文件是 `tex/pilot.tex`。
 
 开篇用一个小例子说明：如果 125 和 49 都整除同一个非零整数，该整数的绝对值至少为 6125。随后将形式化论证中的两项工作分开说明：整除关系限制哪些输入可以进入格，而矩阵估计控制像的大小及独立方向。只有在两项估计针对同一组映射时，才能合并使用。最后一节检查恒为真的 `anyGeometry` 字段、最终证明如何引用它，以及其他假设仍承担什么作用。
@@ -76,11 +80,11 @@ xelatex pilot.tex
 xelatex pilot.tex
 ```
 
-发布版完整 27 页 PDF 位于仓库根目录，也可通过上方固定版本 Release 下载。
+发布版完整 28 页 PDF 位于仓库根目录，也可通过上方固定版本 Release 下载。
 
 ## 固定的形式化源码版本
 
-本版 Lean 源码引用固定到上游提交 [`40e56bab026552e089d7afcfeff08d2defb9c005`](https://github.com/leanprover-community/riemann-hypothesis/tree/40e56bab026552e089d7afcfeff08d2defb9c005)。本导读是独立的读者资料。
+原证明的 Lean 源码引用固定到上游提交 [`40e56bab026552e089d7afcfeff08d2defb9c005`](https://github.com/leanprover-community/riemann-hypothesis/tree/40e56bab026552e089d7afcfeff08d2defb9c005)。第 2.4 节另引 Chey Loveday 同一位置保阶论证的固定版本。本导读是独立的读者资料。
 
 ## 反馈
 
