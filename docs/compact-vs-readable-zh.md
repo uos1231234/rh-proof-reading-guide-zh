@@ -1,6 +1,6 @@
 # 从 30 万行到 7.6 万行：黎曼猜想的 Lean 精简版改了什么
 
-先给结论：**终点相同，证明的主线相同，但至少两处关键中间论证换了做法。** 下文按 Luke Sernau 的 `lsernau/grh-lean` 固定提交 [`72fead10`](https://github.com/lsernau/grh-lean/tree/72fead102f663d5c7a407964a13dc0cf9d977207) 对照 `grh`（可读版）和 `grh-compact`（精简版）。这不是对原始 1,737 万行代码逐行比对，也不是对所有删减的归因。
+先给结论：**终点相同，证明的主线相同，但至少有三处可以具体指出的中间论证变化。** 下文按 Luke Sernau 的 `lsernau/grh-lean` 固定提交 [`72fead10`](https://github.com/lsernau/grh-lean/tree/72fead102f663d5c7a407964a13dc0cf9d977207) 对照 `grh`（可读版）和 `grh-compact`（精简版）。这不是对原始 1,737 万行代码逐行比对，也不是对所有删减的归因。
 
 ## 1. 到底缩短了多少？
 
@@ -12,7 +12,7 @@
 | `src/Lib/` 中的 Lean 文件 | 495 | 573 |
 | `src/New/` 中的 Lean 文件 | 306 | 219 |
 
-代码行口径约少了四分之三。背景库文件数反而增加，因此不能把缩短理解成简单删除文件；也不能把减少的行数按比例归给下文两个例子。总行数和文件数来自[独立复核的源码统计](https://shosonoda.github.io/lean-rh-alpoge/grh.html)；代码行约数见两版 [README（可读版）](https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh/README.md) 和 [README（精简版）](https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/README.md)。
+代码行口径约少了四分之三。背景库文件数反而增加，因此不能把缩短理解成简单删除文件；也不能把减少的行数按比例归给下文三个例子。总行数和文件数来自[独立复核的源码统计](https://shosonoda.github.io/lean-rh-alpoge/grh.html)；代码行约数见两版 [README（可读版）](https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh/README.md) 和 [README（精简版）](https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/README.md)。
 
 ## 2. 不变的主线是什么？
 
@@ -42,7 +42,17 @@
 
 这保留了局部步骤的用途，但不能拿可读版的边函数文件、引理名逐个去精简版里找同名实现。
 
-## 5. 怎么读，怎么核查？
+## 5. 实例三：每个地方不再需要一张适用于所有扭曲的矩阵
+
+先看一个两维例子。在 5 进整数上，第一种条件要求第一坐标能被 5 整除，第二种要求第二坐标能被 5 整除。分别用对角矩阵 `diag(5,1)` 和 `diag(1,5)` 即可，行列式都只含一个因子 5。如果坚持同一张矩阵满足两种条件，它的两行都必须被 5 整除，行列式至少含两个因子 5；`diag(5,5)` 正好达到这个下限。
+
+- **可读版：** 对每个局部嵌入，先找一张矩阵，再要求它对该处所有允许的扭曲都有效。这里的“扭曲”是证明中按参数选取的提升方式；矩阵把给定的一族向量的线性组合送进各扭曲整性条件的交集。[可读版的 `IndexLe`](https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh/src/New/Reduction/Lattices/TwistedLattice.lean#L144-L166)。
+- **精简版：** 对每个局部嵌入和每个允许的扭曲，可以分别选矩阵。变的是矩阵；各素数的损失预算仍在选矩阵之前统一给出。[精简版的 `Data.IndexLe` 和定理 A](https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/src/New/Endgame/ShortAndEnough.lean#L128-L141)。
+- **为什么够用：** 定理 C 的行列式计算在每个局部嵌入只使用选中的一个扭曲 `θ(ι)`。代码先按这个扭曲取得矩阵，再把它扩到补全后的基上，最终下界仍落在 `V + 2δ` 的形式。[定理 C 的实际调用](https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/src/New/Endgame/LongForms.lean#L34-L65)。
+
+这一步删掉的是对中间结果的一个要求：不必证明同一张矩阵同时处理所有扭曲。上面的 5 进例子只解释为什么量词顺序有区别，不是实际自守形式的算例，也不意味着两版的局部常数或归一化可以直接互换。
+
+## 6. 怎么读，怎么核查？
 
 - 先读精简版的主线说明，找清楚最后比较的量与相消的主项；需要追具体定义和调用时，转到[社区维护版的导读](https://github.com/leanprover-community/riemann-hypothesis/blob/main/GUIDE.md)。社区 `main` 从 Sernau 的**可读版**发展，不是 7.6 万行版。
 - [独立复核](https://shosonoda.github.io/lean-rh-alpoge/grh.html)对这个固定提交的两种版本都进行了构建与 Comparator 检查，报告 Lean 和 nanoda 内核接受；五条定理只依赖所列的三个标准公理。这是机器验证，不是对本文每句解释的背书。
