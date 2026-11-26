@@ -56,4 +56,5 @@
 
 - 先读精简版的主线说明，找清楚最后比较的量与相消的主项；需要追具体定义和调用时，转到[社区维护版的导读](https://github.com/leanprover-community/riemann-hypothesis/blob/main/GUIDE.md)。社区 `main` 从 Sernau 的**可读版**发展，不是 7.6 万行版。
 - [独立复核](https://shosonoda.github.io/lean-rh-alpoge/grh.html)对这个固定提交的两种版本都进行了构建与 Comparator 检查，报告 Lean 和 nanoda 内核接受；五条定理只依赖所列的三个标准公理。这是机器验证，不是对本文每句解释的背书。
+- [Andrew Sutherland 的独立复核](https://math.mit.edu/~drew/shortgrh/#what-was-verified)还确认，两版的五个定理陈述展开隐含参数和记号后相同，并分别通过了与挑战文件的对照。源码行数、证明导出大小和核验成本要分开看。精简版的未压缩导出反而大约多 15%，但在报告的同一台机器上，`lean4lean` 的用时和峰值内存从约 2 小时 35 分钟、332 GB 降到约 29 分钟、7 GB。默认 Lean 内核则从约 29 分钟增到约 33 分钟。可读版的 `lean4lean` 约有 2 小时 12 分钟花在 `New.Variety.tiltTheory` 的检查上；精简版重写了这个定义，但这组数据没有隔离出重写中是哪一步造成差异。
 - 我们的 [中文导读](../Reading-Pilot-2026-11-26-v2.pdf)第 3 页列出版本对照；正文所引早期实现仍按原提交定位。第 2.4 节的局部保阶算例用于理解一个机制，不能据此声称精简版用了同一个 Type I 构造。
