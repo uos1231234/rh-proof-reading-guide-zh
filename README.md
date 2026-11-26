@@ -1,13 +1,13 @@
 # A Chinese Reading Guide to Divisibility and the Riemann Hypothesis
 
-This repository contains the complete 28-page Chinese pilot chapter of an independent reader's guide to a selected part of the Alpöge-Claude formalization. It helps readers follow the mathematical argument and its Lean references. It is not a full exposition of the proof, a new proof, or a bug report.
+This repository contains the complete 29-page Chinese pilot chapter of an independent reader's guide to a selected part of the Alpöge-Claude formalization. It helps readers follow the mathematical argument and its Lean references. It is not a full exposition of the proof, a new proof, or a bug report.
 
 ## Start here
 
-- [Read or download the complete 28-page PDF](<https://github.com/uos1231234/rh-proof-reading-guide-zh/releases/download/pilot-2026-11-26/Reading-Pilot-2026-11-26.pdf>).
-- The same edition PDF is included in the repository root as `Reading-Pilot-2026-11-26.pdf`.
+- [Read or download the current 29-page PDF](Reading-Pilot-2026-11-26-v2.pdf).
+- Page 1 introduces the proof strategy. Page 3 maps the original, readable and compact Lean editions. The [earlier 28-page edition](https://github.com/uos1231234/rh-proof-reading-guide-zh/releases/tag/pilot-2026-11-26) is preserved.
 - The [previous edition, 23 November 2026](https://github.com/uos1231234/rh-proof-reading-guide-zh/releases/tag/pilot-2026-11-23), is preserved.
-- This revision adds a pencil-and-paper comparison of order in a quotient and at a selected prime ideal (Section 2.4). It illustrates the same-place step; it is not an instance of the original Type I selector.
+- The previous revision added a pencil-and-paper comparison of order in a quotient and at a selected prime ideal (Section 2.4). It illustrates the same-place step; it is not an instance of the original Type I selector.
 - The editable LaTeX entry point is `tex/pilot.tex`.
 
 The chapter begins with the example that if 125 and 49 both divide the same nonzero integer, its absolute value is at least 6125. It then separates two roles in the formal argument: divisibility constrains which inputs can belong to a lattice, while matrix estimates control the size and independent directions of the images. These estimates must concern the same maps before they can be combined. The final section examines the constant-True `anyGeometry` field, where the final proof refers to it, and which other hypotheses still carry content.
@@ -15,6 +15,7 @@ The chapter begins with the example that if 125 and 49 both divide the same nonz
 ## Source layout
 
 - `tex/pilot.tex`: main document and reading order.
+- `tex/compact-map.tex`: proof outline and cross-edition reading map.
 - `tex/opening.tex`: motivation and the opening example.
 - `tex/lattice.tex`: divisibility, lattices, and the inputs allowed by the argument.
 - `tex/frame.tex`: maps, slopes, and matrix estimates.
@@ -33,7 +34,7 @@ xelatex pilot.tex
 xelatex pilot.tex
 ```
 
-The distributed edition is the complete 28-page PDF in the repository root and in the fixed Release linked above.
+The current 29-page PDF is in the repository root. Older fixed Releases are unchanged.
 
 ## Pinned formal source
 
@@ -47,14 +48,14 @@ Open a focused issue in [this repository](<https://github.com/uos1231234/rh-proo
 
 # 中文导览
 
-本仓库发布一份完整的 28 页中文试读章，是对 Alpöge-Claude 形式化工作中一部分内容的独立读者导读，帮助读者跟上数学论证及其 Lean 代码引用。它不是完整证明的全面讲解、新证明或错误报告。
+本仓库发布一份完整的 29 页中文试读章，是对 Alpöge-Claude 形式化工作中一部分内容的独立读者导读，帮助读者跟上数学论证及其 Lean 代码引用。它不是完整证明的全面讲解、新证明或错误报告。
 
 ## 阅读入口
 
-- [阅读或下载完整 28 页 PDF](<https://github.com/uos1231234/rh-proof-reading-guide-zh/releases/download/pilot-2026-11-26/Reading-Pilot-2026-11-26.pdf>)。
-- 同版 PDF 也放在仓库根目录：`Reading-Pilot-2026-11-26.pdf`。
+- [阅读或下载新版 29 页 PDF](Reading-Pilot-2026-11-26-v2.pdf)。
+- 第 1 页补上证明主线，第 3 页对照原版、可读版和精简版。[此前 28 页版](https://github.com/uos1231234/rh-proof-reading-guide-zh/releases/tag/pilot-2026-11-26)继续保留。
 - 保留 [2026 年 11 月 23 日的旧版](https://github.com/uos1231234/rh-proof-reading-guide-zh/releases/tag/pilot-2026-11-23)。
-- 本次修订在第 2.4 节增加阶 125 的手算对照，说明原商群的阶与指定素理想处的阶为什么可能不同。这个例子只演示保阶原理，不是 Type I 筛选出的原始实例。
+- 上一版在第 2.4 节增加阶 125 的手算对照，说明原商群的阶与指定素理想处的阶为什么可能不同。这个例子只演示保阶原理，不是 Type I 筛选出的原始实例。
 - 可编辑的 LaTeX 主文件是 `tex/pilot.tex`。
 
 开篇用一个小例子说明：如果 125 和 49 都整除同一个非零整数，该整数的绝对值至少为 6125。随后将形式化论证中的两项工作分开说明：整除关系限制哪些输入可以进入格，而矩阵估计控制像的大小及独立方向。只有在两项估计针对同一组映射时，才能合并使用。最后一节检查恒为真的 `anyGeometry` 字段、最终证明如何引用它，以及其他假设仍承担什么作用。
@@ -62,6 +63,7 @@ Open a focused issue in [this repository](<https://github.com/uos1231234/rh-proo
 ## 目录
 
 - `tex/pilot.tex`：主文档与阅读顺序。
+- `tex/compact-map.tex`：证明路线与三个源码版本。
 - `tex/opening.tex`：动机和开篇例子。
 - `tex/lattice.tex`：整除、格，以及论证允许的输入。
 - `tex/frame.tex`：映射、斜率和矩阵估计。
@@ -80,7 +82,7 @@ xelatex pilot.tex
 xelatex pilot.tex
 ```
 
-发布版完整 28 页 PDF 位于仓库根目录，也可通过上方固定版本 Release 下载。
+新版 29 页 PDF 位于仓库根目录；旧版固定 Release 不变。
 
 ## 固定的形式化源码版本
 

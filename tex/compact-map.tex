@@ -1,0 +1,18 @@
+\section*{证明路线与三个源码版本}
+\phantomsection
+\addcontentsline{toc}{section}{证明路线与三个源码版本}
+
+\noindent\textbf{从哪里读起？} 先看精简版的\href{https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/src/New/Main.lean\#L26-L72}{主证明文件开头}。把带指数修正的余体积估计记作 $H$，把双方共有的主项记作 $B$，把素数和偏差记作 $R$。暂时不写误差，比较的骨架是
+\[
+ B \le H \le B-mR,
+\]
+其中 $m$ 是提升次数。左边限制 $H$ 不能太小，右边说明 $R$ 若太大，$H$ 就会太小。消掉双方共有的 $B$，再带回误差，就得到 $R$ 的上界。选取第二个尺度并使用解析判据，才从这个界走到零点结论。
+
+\noindent\textbf{原版。} Alpöge 与 Claude 发布的形式化工作。本文正文仍按\href{https://github.com/leanprover-community/riemann-hypothesis/tree/40e56bab026552e089d7afcfeff08d2defb9c005}{原版提交 \texttt{40e56bab}}定位。第 2.4 节另有 Chey 的固定链接；阶为 125 的手算例子只说明局部保阶，不是满足 Type I 筛选条件的原始算例。
+
+\noindent\textbf{可读版。} Sernau 等人将原论证重写为约 30 万行代码。社区维护仓库的新版 \texttt{main} 从这个版本发展，适合按\href{https://github.com/leanprover-community/riemann-hypothesis/blob/2db90859500407542617a5b86281b4f1e1ee69cb/GUIDE.md}{社区阅读路线}定位定义和调用。本文引用原版时，文件名不能照搬到社区版。
+
+\noindent\textbf{精简版。} 同一仓库的\href{https://github.com/lsernau/grh-lean/blob/72fead102f663d5c7a407964a13dc0cf9d977207/grh-compact/README.md}{\texttt{grh-compact}} 约 7.6 万行代码。它保留相同的五条顶层定理和上述证明骨架，但有些中间步骤换了论证。不能把内部文件逐项对号；两版都用 A、B、C 组织全局论证，但局部的 Hecke 整除估计和第二尺度的选取都换了做法。
+
+\noindent\textbf{阅读建议。} 用精简版建立全局图，再回到可读版追查具体估计。本文各节仍会说清所依据的是哪一版；旧版中的例子不能直接当成精简版的实现。
+\clearpage
