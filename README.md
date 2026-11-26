@@ -8,6 +8,7 @@ This repository contains the complete 29-page Chinese pilot chapter of an indepe
 - Page 1 introduces the proof strategy. Page 3 maps the original, readable and compact Lean editions. The [earlier 28-page edition](https://github.com/uos1231234/rh-proof-reading-guide-zh/releases/tag/pilot-2026-11-26) is preserved.
 - The [previous edition, 23 November 2026](https://github.com/uos1231234/rh-proof-reading-guide-zh/releases/tag/pilot-2026-11-23), is preserved.
 - The previous revision added a pencil-and-paper comparison of order in a quotient and at a selected prime ideal (Section 2.4). It illustrates the same-place step; it is not an instance of the original Type I selector.
+- [What changed in the 76,000-line edition? (Chinese)](docs/compact-vs-readable-zh.md)
 - The editable LaTeX entry point is `tex/pilot.tex`.
 
 The chapter begins with the example that if 125 and 49 both divide the same nonzero integer, its absolute value is at least 6125. It then separates two roles in the formal argument: divisibility constrains which inputs can belong to a lattice, while matrix estimates control the size and independent directions of the images. These estimates must concern the same maps before they can be combined. The final section examines the constant-True `anyGeometry` field, where the final proof refers to it, and which other hypotheses still carry content.
@@ -56,6 +57,7 @@ Open a focused issue in [this repository](<https://github.com/uos1231234/rh-proo
 - 第 1 页补上证明主线，第 3 页对照原版、可读版和精简版。[此前 28 页版](https://github.com/uos1231234/rh-proof-reading-guide-zh/releases/tag/pilot-2026-11-26)继续保留。
 - 保留 [2026 年 11 月 23 日的旧版](https://github.com/uos1231234/rh-proof-reading-guide-zh/releases/tag/pilot-2026-11-23)。
 - 上一版在第 2.4 节增加阶 125 的手算对照，说明原商群的阶与指定素理想处的阶为什么可能不同。这个例子只演示保阶原理，不是 Type I 筛选出的原始实例。
+- [7.6 万行精简版具体改了什么](docs/compact-vs-readable-zh.md)。
 - 可编辑的 LaTeX 主文件是 `tex/pilot.tex`。
 
 开篇用一个小例子说明：如果 125 和 49 都整除同一个非零整数，该整数的绝对值至少为 6125。随后将形式化论证中的两项工作分开说明：整除关系限制哪些输入可以进入格，而矩阵估计控制像的大小及独立方向。只有在两项估计针对同一组映射时，才能合并使用。最后一节检查恒为真的 `anyGeometry` 字段、最终证明如何引用它，以及其他假设仍承担什么作用。
